@@ -4,6 +4,8 @@ const { Router } = require("express");
 //importando o UsersController
 const UsersController = require("../controllers/UsersController");
 
+const  ensureAuthenticated = require("../middlewares/ensureAuthenticated");
+
 //atribuindo a função Router para a variavel usersRoutes
 const usersRoutes = Router();
 
@@ -15,7 +17,7 @@ const usersController = new UsersController();
 usersRoutes.post("/", usersController.create)
 
 //criando uma rota para o PUT (update)
-usersRoutes.put("/:id", usersController.update)
+usersRoutes.put("/", ensureAuthenticated, usersController.update);
 
 
 //exportando pra quem quiser utilizar, poder utilizar o usersRoutes

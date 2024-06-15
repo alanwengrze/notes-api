@@ -5,7 +5,7 @@ class NotesController{
   //criando uma nova nota
   async create(request, response){
     const { title, description, tags, links } = request.body;
-    const {user_id} = request.params;
+    const user_id = request.user.id;
 
     //criando a nota
     const [ note_id ] = await knex('notes').insert({
@@ -34,7 +34,7 @@ class NotesController{
     //inserindo as tags na tabela
     await knex('tags').insert(tagsInsert);
 
-    response.json();
+    return response.json();
   }
 
   //mostrando as notas pelo id
@@ -67,7 +67,9 @@ class NotesController{
 
   //listando as notas de um usuario pelo id do usuario
   async index(request, response){
-    const { user_id, title, tags } = request.query;
+    const { title, tags } = request.query;
+    
+    const user_id = request.user.id;
 
     let notes;
 

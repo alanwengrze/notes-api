@@ -4,16 +4,20 @@ const { Router } = require("express");
 //importando o NotesController
 const NotesController = require("../controllers/NotesController");
 
+const  ensureAuthenticated = require("../middlewares/ensureAuthenticated");
+
 //atribuindo a função Router para a variavel notesRoutes
 const notesRoutes = Router();
 
 //Instanciando o NotesController
 const notesController = new NotesController();
 
+notesRoutes.use(ensureAuthenticated);
+
 notesRoutes.get("/", notesController.index);
 
 //criando uma rota para o POST (create)
-notesRoutes.post("/:user_id", notesController.create);
+notesRoutes.post("/", notesController.create);
 
 //criando uma rota para o GET (show)
 notesRoutes.get("/:id", notesController.show);

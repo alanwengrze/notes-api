@@ -15,6 +15,10 @@ class UsersController {
     //criando a conexão
     const database = await sqliteConnection();
 
+    if(!email) {
+      throw new AppError("E-mail obrigatório.");
+    }
+    
     //verificando se o email existe
     const checkUserExists = await database.get("SELECT * FROM users WHERE email = (?)", [email]);
 
@@ -36,15 +40,13 @@ class UsersController {
   async update(request, response) {
     //pegando os dados do body
     const { name, email, password, old_password } = request.body;
-
-    //pegando o id do usuario passado por params
-    const { id } = request.params;
+    const user_id = request.user.id;
 
     //criando a conexão
     const database = await sqliteConnection();
 
     //pegando usuario pelo id
-    const user = await database.get("SELECT * FROM users WHERE id = (?)", [id]);
+    const user = await database.get("SELECT * FROM users WHERE id = (?)", [user_id]);
 
     //verificando se o usuario existe
     if(!user) {
@@ -90,7 +92,7 @@ class UsersController {
         updated_at = DATETIME('now')
         WHERE id = ?
       `,
-      [user.name, user.email, user.password, id]
+      [user.name, user.email, user.password, user_id]
     )
 
     return response.status(200).json();
