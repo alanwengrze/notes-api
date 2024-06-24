@@ -1,6 +1,9 @@
 // importando o sistema de error do express
 require("express-async-errors")
 
+// importando as configs de upload de imagem
+const uploadConfigs = require("./configs/upload")
+
 // importando o database
 const migrationsRun = require("./database/sqlite/migrations");
 
@@ -18,6 +21,9 @@ const app = express();
 
 //permite que o express entenda o formato JSON
 app.use(express.json());
+
+//definindo o caminho das imagens
+app.use("/files", express.static(uploadConfigs.UPLOADS_FOLDER));
 
 //inserindo as rotas na aplicação (que estão no routes)
 app.use(routes);
