@@ -1,23 +1,30 @@
 // importando o sistema de error do express
 require("express-async-errors")
 
-// importando as configs de upload de imagem
-const uploadConfigs = require("./configs/upload")
-
 // importando o database
 const migrationsRun = require("./database/sqlite/migrations");
 
 // importando o AppError
 const AppError = require("./utils/AppError");
 
-//pegando tudo de express e adicionando a uma variavel
+// importando as configs de upload de imagem
+const uploadConfigs = require("./configs/upload");
+
+// importando o cors
+const cors = require('cors');
+
+//importando o express
 const express = require("express");
 
+//importando as rotas
 const routes = require("./routes");//qnd não passo um arquivo como parametro depois da barra, ele pega o arquivo index.js
 migrationsRun();
 
 //inicializando o express
 const app = express();
+
+//habilitando o cors
+app.use(cors());
 
 //permite que o express entenda o formato JSON
 app.use(express.json());

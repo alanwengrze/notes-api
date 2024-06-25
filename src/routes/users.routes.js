@@ -28,6 +28,7 @@ usersRoutes.post("/", usersController.create)
 //criando uma rota para o PUT (update)
 usersRoutes.put("/", ensureAuthenticated, usersController.update);
 
+//rota para atualizar o avatar
 usersRoutes.patch("/avatar", ensureAuthenticated, upload.single('avatar'), userAvatarController.update);
 
 
