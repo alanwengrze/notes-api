@@ -48,6 +48,27 @@ class UsersController {
     //pegando usuario pelo id
     const user = await database.get("SELECT * FROM users WHERE id = (?)", [user_id]);
 
+    if(!name || !email) {
+      throw new AppError("Nome e e-mail obrigatórios.");
+    }
+
+    //verificando se a senha atual foi informada
+    if(!old_password){
+      throw new AppError("Por favor, informe sua senha para atualizar os dados.");
+    }
+    //verificando se a senha está correta
+    if(old_password){
+      const checkOldPassword = await compare(old_password, user.password);
+
+      //se a senha antiga não confere, dispara um erro
+      if(!checkOldPassword) {
+        throw new AppError("Senha inválida.");
+      }
+    }
+    if(password === old_password) {
+      throw new AppError("A nova senha deve ser diferente da antiga.");
+    }
+
     //verificando se o usuario existe
     if(!user) {
       throw new AppError("Usuário não encontrado.");
