@@ -1,3 +1,5 @@
+require("dotenv/config");
+
 // importando o sistema de error do express
 require("express-async-errors")
 
@@ -55,7 +57,7 @@ app.use((error, request, response, next)=>{
 });
 
 //colocando o endereço em uma variável, esse endereço vai ser a porta do servidor
-const PORT = 3333;
+const PORT = process.env.PORT || 3333;
 
 //ouvindo a porta do servidor, quando a aplicação for iniciada, o servidor vai executar o console.log
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
